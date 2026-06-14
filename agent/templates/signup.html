@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up — Zenie</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  min-height: 100vh;
+  background-color: #0B0B0B;
+  color: #F1F1F3;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+body {
+  background-image: radial-gradient(ellipse at 80% 50%, rgba(139,92,246,0.1) 0%, transparent 60%),
+                    radial-gradient(ellipse at 20% 20%, rgba(59,130,246,0.08) 0%, transparent 60%);
+}
+.card {
+  width: 100%;
+  max-width: 440px;
+  margin: 20px;
+  padding: 40px 36px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+}
+.logo {
+  font-size: 26px; font-weight: 800; text-align: center; margin-bottom: 8px;
+  background: linear-gradient(135deg, #8B5CF6, #3B82F6);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.logo span { -webkit-text-fill-color: #fff; color: #fff; }
+h1 { font-size: 22px; font-weight: 700; text-align: center; margin-bottom: 6px; color: #F1F1F3; }
+.sub { color: #888899; font-size: 14px; text-align: center; margin-bottom: 28px; }
+.flash-error {
+  padding: 12px 16px; border-radius: 10px; font-size: 13px;
+  margin-bottom: 18px; font-weight: 500;
+  background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.25); color: #f87171;
+}
+.flash-success {
+  padding: 12px 16px; border-radius: 10px; font-size: 13px;
+  margin-bottom: 18px; font-weight: 500;
+  background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.25); color: #4ade80;
+}
+.form-group { margin-bottom: 16px; }
+label { font-size: 13px; font-weight: 600; color: #888899; display: block; margin-bottom: 6px; }
+input, select {
+  width: 100%; padding: 12px 16px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px; color: #F1F1F3;
+  font-size: 14px; font-family: 'Segoe UI', system-ui, sans-serif;
+  outline: none; transition: border-color 0.2s;
+}
+select option { background: #1a1a2e; color: #F1F1F3; }
+input::placeholder { color: #444455; }
+input:focus, select:focus { border-color: #8B5CF6; box-shadow: 0 0 0 3px rgba(139,92,246,0.12); }
+.role-label { font-size: 13px; font-weight: 600; color: #888899; margin-bottom: 10px; }
+.role-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+.role-card {
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px; padding: 14px 12px; text-align: center;
+  cursor: pointer; transition: all 0.2s; user-select: none;
+  background: transparent;
+}
+.role-card:hover { border-color: rgba(139,92,246,0.4); }
+.role-card.selected { border-color: #8B5CF6; background: rgba(139,92,246,0.1); }
+.role-icon { font-size: 24px; margin-bottom: 6px; }
+.role-name { font-size: 13px; font-weight: 700; color: #F1F1F3; }
+.role-desc { font-size: 11px; color: #888899; margin-top: 2px; }
+.btn {
+  width: 100%; padding: 13px; border: none; border-radius: 10px;
+  background: linear-gradient(135deg, #8B5CF6, #3B82F6);
+  color: #fff; font-size: 15px; font-weight: 700;
+  cursor: pointer; font-family: 'Segoe UI', system-ui, sans-serif;
+  box-shadow: 0 0 24px rgba(139,92,246,0.3);
+  transition: all 0.2s;
+}
+.btn:hover { transform: translateY(-1px); box-shadow: 0 4px 32px rgba(139,92,246,0.5); }
+.divider {
+  text-align: center; color: #444455; font-size: 13px; margin: 20px 0; position: relative;
+}
+.divider::before, .divider::after {
+  content: ''; position: absolute; top: 50%;
+  width: 42%; height: 1px; background: rgba(255,255,255,0.07);
+}
+.divider::before { left: 0; } .divider::after { right: 0; }
+.link-row { text-align: center; font-size: 14px; color: #888899; }
+.link-row a { color: #A78BFA; font-weight: 600; text-decoration: none; }
+.link-row a:hover { text-decoration: underline; }
+.back { display: block; text-align: center; margin-top: 20px; font-size: 13px; color: #444455; text-decoration: none; }
+.back:hover { color: #888899; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">zenie<span>.</span></div>
+  <h1>Create your account</h1>
+  <p class="sub">Join 10,000+ users on Zenie</p>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}
+      <div class="flash-{{ category }}">{{ message }}</div>
+    {% endfor %}
+  {% endwith %}
+
+  <form method="POST" action="/signup">
+    <div class="form-group">
+      <label>Full Name</label>
+      <input type="text" name="name" placeholder="Your full name" required>
+    </div>
+    <div class="form-group">
+      <label>Email Address</label>
+      <input type="email" name="email" placeholder="you@example.com" required>
+    </div>
+    <div class="form-group">
+      <label>Password (min 6 characters)</label>
+      <input type="password" name="password" placeholder="Create a strong password" required>
+    </div>
+
+    <div class="role-label">I want to —</div>
+    <div class="role-grid">
+      <div class="role-card selected" onclick="selectRole('buyer', this)">
+        <div class="role-icon">🛒</div>
+        <div class="role-name">Buy Agents</div>
+        <div class="role-desc">Find & deploy AI agents</div>
+      </div>
+      <div class="role-card" onclick="selectRole('seller', this)">
+        <div class="role-icon">💰</div>
+        <div class="role-name">Sell Agents</div>
+        <div class="role-desc">Publish & earn passively</div>
+      </div>
+    </div>
+    <input type="hidden" name="role" id="roleInput" value="buyer">
+
+    <button type="submit" class="btn">Create Account →</button>
+  </form>
+
+  <div class="divider">or</div>
+  <div class="link-row">
+    Already have an account? <a href="/login">Login</a>
+  </div>
+  <a href="/" class="back">← Back to homepage</a>
+</div>
+
+<script>
+function selectRole(role, el) {
+  document.querySelectorAll('.role-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('roleInput').value = role;
+}
+</script>
+</body>
+</html>

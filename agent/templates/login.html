@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login — Zenie</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  min-height: 100vh;
+  background-color: #0B0B0B;
+  color: #F1F1F3;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+body {
+  background-image: radial-gradient(ellipse at 20% 50%, rgba(139,92,246,0.1) 0%, transparent 60%),
+                    radial-gradient(ellipse at 80% 20%, rgba(59,130,246,0.08) 0%, transparent 60%);
+}
+.card {
+  width: 100%;
+  max-width: 420px;
+  margin: 20px;
+  padding: 40px 36px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+}
+.logo {
+  font-size: 26px;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 8px;
+  background: linear-gradient(135deg, #8B5CF6, #3B82F6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.logo span { -webkit-text-fill-color: #fff; color: #fff; }
+h1 { font-size: 22px; font-weight: 700; text-align: center; margin-bottom: 6px; color: #F1F1F3; }
+.sub { color: #888899; font-size: 14px; text-align: center; margin-bottom: 28px; }
+.flash-error {
+  padding: 12px 16px; border-radius: 10px; font-size: 13px;
+  margin-bottom: 18px; font-weight: 500;
+  background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.25); color: #f87171;
+}
+.flash-success {
+  padding: 12px 16px; border-radius: 10px; font-size: 13px;
+  margin-bottom: 18px; font-weight: 500;
+  background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.25); color: #4ade80;
+}
+.form-group { margin-bottom: 16px; }
+label { font-size: 13px; font-weight: 600; color: #888899; display: block; margin-bottom: 6px; }
+input {
+  width: 100%; padding: 12px 16px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  color: #F1F1F3;
+  font-size: 14px;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  outline: none;
+  transition: border-color 0.2s;
+}
+input::placeholder { color: #444455; }
+input:focus { border-color: #8B5CF6; box-shadow: 0 0 0 3px rgba(139,92,246,0.12); }
+.remember {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; color: #888899; margin-bottom: 22px; cursor: pointer;
+}
+.remember input { width: auto; }
+.btn {
+  width: 100%; padding: 13px; border: none; border-radius: 10px;
+  background: linear-gradient(135deg, #8B5CF6, #3B82F6);
+  color: #fff; font-size: 15px; font-weight: 700;
+  cursor: pointer; font-family: 'Segoe UI', system-ui, sans-serif;
+  box-shadow: 0 0 24px rgba(139,92,246,0.3);
+  transition: all 0.2s;
+}
+.btn:hover { transform: translateY(-1px); box-shadow: 0 4px 32px rgba(139,92,246,0.5); }
+.divider {
+  text-align: center; color: #444455; font-size: 13px; margin: 20px 0;
+  position: relative;
+}
+.divider::before, .divider::after {
+  content: ''; position: absolute; top: 50%;
+  width: 42%; height: 1px; background: rgba(255,255,255,0.07);
+}
+.divider::before { left: 0; } .divider::after { right: 0; }
+.link-row { text-align: center; font-size: 14px; color: #888899; }
+.link-row a { color: #A78BFA; font-weight: 600; text-decoration: none; }
+.link-row a:hover { text-decoration: underline; }
+.back { display: block; text-align: center; margin-top: 20px; font-size: 13px; color: #444455; text-decoration: none; }
+.back:hover { color: #888899; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">zenie<span>.</span></div>
+  <h1>Welcome back</h1>
+  <p class="sub">Login to your Zenie account</p>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}
+      <div class="flash-{{ category }}">{{ message }}</div>
+    {% endfor %}
+  {% endwith %}
+
+  <form method="POST" action="/login">
+    <div class="form-group">
+      <label>Email Address</label>
+      <input type="email" name="email" placeholder="you@example.com" required>
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" name="password" placeholder="Enter your password" required>
+    </div>
+    <label class="remember">
+      <input type="checkbox" name="remember"> Remember me for 30 days
+    </label>
+    <button type="submit" class="btn">Login to Zenie →</button>
+  </form>
+
+  <div class="divider">or</div>
+  <div class="link-row">
+    Don't have an account? <a href="/signup">Sign up free</a>
+  </div>
+  <a href="/" class="back">← Back to homepage</a>
+</div>
+</body>
+</html>
