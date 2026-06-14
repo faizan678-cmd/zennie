@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, jsonify, redirect, url_for, f
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
+import os
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'zenie-secret-key'
@@ -114,4 +115,5 @@ def newsletter():
     return jsonify({'success': True, 'message': 'Subscribed! Welcome to Zenie 🎉'})
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    port =int(os.environ.get('PORT' ,5000))
+    app.run(host= '0.0.0.0', port=port)
